@@ -1,0 +1,15 @@
+{
+	"name": "SourceDataset_rfs",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CosmosDbNoSql1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {},
+		"typeProperties": {
+			"collectionName": "Item"
+		}
+	}
+}
