@@ -1,0 +1,19 @@
+{
+	"name": "CosmosDbNoSql1",
+	"properties": {
+		"annotations": [],
+		"type": "CosmosDb",
+		"typeProperties": {
+			"accountEndpoint": "https://cosmoswebdatadeveus.documents.azure.com:443/",
+			"database": "Tasks",
+			"credential": {
+				"referenceName": "uid-demo",
+				"type": "CredentialReference"
+			}
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
