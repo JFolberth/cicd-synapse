@@ -12,14 +12,14 @@ stages:
     stage: 'Build'
     jobs:
       - job: 'build_artifact'
-          steps:
-          - task: Synapse workspace deployment@2
-            inputs:
-              operation: 'validate'
-              azureSubscription: 'AzureDevExtServiceConnection'
-              ResourceGroupName: 'rg-synpasecicd-dev-eus'
-              TargetWorkspaceName: 'sy-synapsecicd-dev-eus'
-          - template: tasks/ado_publish_pipeline_task.yml@templates
-            inputs:
-              name: my-artifact
-              targetPath: '$(Pipeline.Workspace)/ExportedArtifacts'
+        steps:
+        - task: Synapse workspace deployment@2
+          inputs:
+            operation: 'validate'
+            azureSubscription: 'AzureDevExtServiceConnection'
+            ResourceGroupName: 'rg-synpasecicd-dev-eus'
+            TargetWorkspaceName: 'sy-synapsecicd-dev-eus'
+        - template: tasks/ado_publish_pipeline_task.yml@templates
+          inputs:
+            name: my-artifact
+            targetPath: '$(Pipeline.Workspace)/ExportedArtifacts'
