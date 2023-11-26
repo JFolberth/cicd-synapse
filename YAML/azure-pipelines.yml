@@ -1,0 +1,20 @@
+
+
+steps:
+  - task: Synapse workspace deployment@2
+    inputs:
+      operation: 'validate'
+      TemplateFile: 'main.json'
+      ParametersFile: 'parameters.json'
+      azureSubscription: 'AzureDevExtServiceConnection'
+      ResourceGroupName: 'rg-synapse'
+      TargetWorkspaceName: 'synapse'
+      DeleteArtifactsNotInTemplate: false
+      DeployManagedPrivateEndpoints: false
+      FailOnMissingOverrides: false
+      Environment: 'prod'
+      npmpackage: 'prod'
+  - task: actions/upload-artifact@v3
+    inputs:
+      name: my-artifact
+      path: ./ExportedArtifacts
