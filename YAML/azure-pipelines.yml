@@ -20,6 +20,6 @@ stages:
             ResourceGroupName: 'rg-synpasecicd-dev-eus'
             TargetWorkspaceName: 'sy-synapsecicd-dev-eus'
         - template: tasks/ado_publish_pipeline_task.yml@templates
-          inputs:
+          parameters:
             name: my-artifact
             targetPath: '$(Pipeline.Workspace)/ExportedArtifacts'
