@@ -1,0 +1,28 @@
+{
+	"name": "SourceDataset_7za",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CosmosDbNoSql1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"description": {
+					"type": "string"
+				},
+				"isComplete": {
+					"type": "boolean"
+				}
+			}
+		},
+		"typeProperties": {
+			"collectionName": "Item"
+		}
+	}
+}
