@@ -5,6 +5,9 @@
 		"workspaceName": {
 			"value": "sy-synapsecicd-dev-eus"
 		},
+		"CosmosDbNoSql1_connectionString": {
+			"value": ""
+		},
 		"sy-synapsecicd-dev-eus-WorkspaceDefaultSqlServer_connectionString": {
 			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:sy-synapsecicd-dev-eus.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
