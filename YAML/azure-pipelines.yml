@@ -13,10 +13,13 @@ parameters:
   - name: 'workspaceName'
     type: string
     default: 'sy-synapsecicd-dev-eus'
+  - name: 'serviceName'
+    type: string
+    default: 'synapsecicd'
 
 
 stages:
   - template: stages/synapse_build_stage.yml@templates
     parameters:
-      TargetWorkspaceName: ${{ parameters.workspaceName }}
+      targetWorkspaceName: ${{ parameters.workspaceName }}
 
