@@ -16,7 +16,7 @@ parameters:
 
 
 stages:
-  - template: stages/synapse_build_stage@templates
+  - template: stages/synapse_build_stage.yml@templates
     parameters:
       TargetWorkspaceName: ${{ parameters.workspaceName }}
 
