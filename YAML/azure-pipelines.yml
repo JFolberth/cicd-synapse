@@ -22,4 +22,5 @@ stages:
   - template: stages/synapse_build_stage.yml@templates
     parameters:
       targetWorkspaceName: ${{ parameters.workspaceName }}
+      serviceName: ${{ parameters.serviceName}}
 
