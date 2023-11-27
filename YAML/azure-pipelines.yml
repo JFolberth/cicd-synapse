@@ -19,6 +19,7 @@ stages:
             azureSubscription: 'AzureDevExtServiceConnection'
             ResourceGroupName: 'rg-synpasecicd-dev-eus'
             TargetWorkspaceName: 'sy-synapsecicd-dev-eus'
+            ArtifactsFolder: 'synapse'
         - template: tasks/ado_publish_pipeline_task.yml@templates
           parameters:
             artifactName: my-artifact
