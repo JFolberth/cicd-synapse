@@ -12,7 +12,7 @@ pool:
 parameters:
   - name: 'workspaceName'
     type: string
-    default: 'sy-synapsecicd-dev-eus'
+    default: 'test'
   - name: 'serviceName'
     type: string
     default: 'synapsecicd'
