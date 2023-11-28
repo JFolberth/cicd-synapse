@@ -28,6 +28,7 @@ stages:
   - template: stages/synapse_build_stage.yml@templates
     parameters:
       serviceName: ${{ parameters.serviceName}}
+      targetWorkspaceName: 'synw-${{parameters.serviceName}}-dev2-eus'
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main')}}:
     - template: stages/synapse_deploy_stage.yml@templates
       parameters:
