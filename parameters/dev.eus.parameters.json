@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "value": ""
+        },
+        "CosmosDbNoSql1_connectionString": {
+            "value": ""
+        },
+        "sy-synapsecicd-dev-eus-WorkspaceDefaultSqlServer_connectionString": {
+            "value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:synw-synapsecicd-dev2-eus.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
+        },
+        "sy-synapsecicd-dev-eus-WorkspaceDefaultStorage_properties_typeProperties_url": {
+            "value": "https://adlsynapsecicddev2eus.dfs.core.windows.net"
+        }
+    }
+}
