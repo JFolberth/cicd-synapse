@@ -9,25 +9,24 @@ resources:
 pool:
   vmImage: 'ubuntu-latest'
 
-  parameters:
-    - name: environmentObjects
-      type: object
-      default:
-        - environmentName: 'dev2'
-          regionAbrvs: ['eus']
-          locations: ['eastus']
-        - environmentName: 'tst'
-          regionAbrvs: ['eus']
-          locations: ['eastus']
-    - name: serviceName
-      type: string
-      default: 'synapsecicd'
+parameters:
+  - name: environmentObjects
+    type: object
+    default:
+      - environmentName: 'dev2'
+        regionAbrvs: ['eus']
+        locations: ['eastus']
+      - environmentName: 'tst'
+        regionAbrvs: ['eus']
+        locations: ['eastus']
+  - name: serviceName
+    type: string
+    default: 'synapsecicd'
 
 
 stages:
   - template: stages/synapse_build_stage.yml@templates
     parameters:
-      targetWorkspaceName: ${{ parameters.workspaceName }}
       serviceName: ${{ parameters.serviceName}}
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main')}}:
     - template: stages/synapse_deploy_stage.yml@templates
