@@ -7,7 +7,7 @@ resources:
     ref: feature/synapse
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 parameters:
   - name: environmentObjects
