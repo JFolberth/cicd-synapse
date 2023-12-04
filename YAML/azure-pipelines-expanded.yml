@@ -1,0 +1,149 @@
+resources:
+  repositories:
+  - repository: templates
+    type: github
+    name: JFolberth/TheYAMLPipelineOne
+    endpoint: JFolberth
+    ref: feature/synapse
+pool:
+  vmImage: 'ubuntu-latest'
+parameters:
+- name: environmentObjects
+  type: object
+  default:
+  - environmentName: 'dev2'
+    regionAbrvs:
+    - 'eus'
+    locations:
+    - 'eastus'
+  - environmentName: 'tst'
+    regionAbrvs:
+    - 'eus'
+    locations:
+    - 'eastus'
+- name: serviceName
+  type: string
+  default: 'synapsecicd'
+stages:
+- stage: synapsecicd_build
+  jobs:
+  - job: synapse_synapsecicd_build
+    steps:
+    - task: Synapse workspace deployment@2
+      inputs:
+        operation: 'validate'
+        TargetWorkspaceName: synapse
+        ArtifactsFolder: $(Build.Repository.LocalPath)/synapse
+  - job: Publish_parameters
+    steps:
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Pipeline Artifact parameters '
+      inputs:
+        targetPath: parameters
+        artifact: parameters
+        properties: ''
+- stage: synapsecicd_dev2_eus_synapse_deploy
+  jobs:
+  - deployment: synapse_synapsecicd_dev2_eus
+    environment:
+      name: dev2
+    variables:
+    - name: azureServiceConnectionName
+      value: 'AzureDevExtServiceConnection'
+    - name: azureSubscriptionID
+      value: '898e66c4-4550-43c4-93a1-2d3c16932df2'
+    - name: resourceGroupName
+      value: rg-synapsecicd-dev2-eus
+    - name: workspaceName
+      value: synw-synapsecicd-dev2-eus
+    - name: templateParametersFile
+      value: parameters/dev2.eus.parameters.json
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: toggle-triggers-dev@2
+            displayName: Turn Off Synapse Triggers
+            inputs:
+              ServiceConnectionName: AzureDevExtServiceConnection
+              ResourceGroupName: rg-synapsecicd-dev2-eus
+              WorkspaceName: synw-synapsecicd-dev2-eus
+              ToggleOn: False
+              Triggers: '*'
+          - task: PowerShell@2
+            inputs:
+              targetType: inline
+              script: Get-ChildItem -Path $(Pipeline.Workspace) -recurse
+          - task: Synapse workspace deployment@2
+            inputs:
+              operation: 'deploy'
+              TargetWorkspaceName: synw-synapsecicd-dev2-eus
+              TemplateFile: $(Pipeline.Workspace)/export/TemplateForWorkspace.json
+              ParametersFile: $(Pipeline.Workspace)/parameters/dev2.eus.parameters.json
+              azureSubscription: AzureDevExtServiceConnection
+              ResourceGroupName: rg-synapsecicd-dev2-eus
+              DeleteArtifactsNotInTemplate: False
+              DeployManagedPrivateEndpoints: False
+              FailOnMissingOverrides: False
+              OverrideParameters: ''
+          - task: toggle-triggers-dev@2
+            displayName: Turn On Synapse Triggers
+            inputs:
+              ServiceConnectionName: AzureDevExtServiceConnection
+              ResourceGroupName: rg-synapsecicd-dev2-eus
+              WorkspaceName: synw-synapsecicd-dev2-eus
+              ToggleOn: True
+              Triggers: '*'
+- stage: synapsecicd_tst_eus_synapse_deploy
+  jobs:
+  - deployment: synapse_synapsecicd_tst_eus
+    environment:
+      name: tst
+    variables:
+    - name: azureServiceConnectionName
+      value: 'AzureDevServiceConnection'
+    - name: azureSubscriptionID
+      value: 'b7d58423-b5cf-4fc4-98bb-446c92dc6ec5'
+    - name: resourceGroupName
+      value: rg-synapsecicd-tst-eus
+    - name: workspaceName
+      value: synw-synapsecicd-tst-eus
+    - name: templateParametersFile
+      value: parameters/tst.eus.parameters.json
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: toggle-triggers-dev@2
+            displayName: Turn Off Synapse Triggers
+            inputs:
+              ServiceConnectionName: AzureDevServiceConnection
+              ResourceGroupName: rg-synapsecicd-tst-eus
+              WorkspaceName: synw-synapsecicd-tst-eus
+              ToggleOn: False
+              Triggers: '*'
+          - task: PowerShell@2
+            inputs:
+              targetType: inline
+              script: Get-ChildItem -Path $(Pipeline.Workspace) -recurse
+          - task: Synapse workspace deployment@2
+            inputs:
+              operation: 'deploy'
+              TargetWorkspaceName: synw-synapsecicd-tst-eus
+              TemplateFile: $(Pipeline.Workspace)/export/TemplateForWorkspace.json
+              ParametersFile: $(Pipeline.Workspace)/parameters/tst.eus.parameters.json
+              azureSubscription: AzureDevServiceConnection
+              ResourceGroupName: rg-synapsecicd-tst-eus
+              DeleteArtifactsNotInTemplate: False
+              DeployManagedPrivateEndpoints: False
+              FailOnMissingOverrides: False
+              OverrideParameters: ''
+          - task: toggle-triggers-dev@2
+            displayName: Turn On Synapse Triggers
+            inputs:
+              ServiceConnectionName: AzureDevServiceConnection
+              ResourceGroupName: rg-synapsecicd-tst-eus
+              WorkspaceName: synw-synapsecicd-tst-eus
+              ToggleOn: True
+              Triggers: '*'
+
