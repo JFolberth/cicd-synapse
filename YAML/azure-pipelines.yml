@@ -16,6 +16,7 @@ parameters:
       - environmentName: 'dev2'
         regionAbrvs: ['eus']
         locations: ['eastus']
+        enableTriggers: '*'
       - environmentName: 'tst'
         regionAbrvs: ['eus']
         locations: ['eastus']
@@ -28,6 +29,7 @@ stages:
   - template: stages/synapse_build_stage.yml@templates
     parameters:
       serviceName: ${{ parameters.serviceName}}
+
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main')}}:
     - template: stages/synapse_deploy_stage.yml@templates
       parameters:
